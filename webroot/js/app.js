@@ -71,6 +71,54 @@ class App extends React.Component {
     console.log("poststate", this.state);
   }
 
+  countTotals() {
+    let totalCountries = this.state.countryInfo.length;
+
+    // counts how many are in each region
+    let regions = {};
+    let subregions = {};
+
+    for (var i = 0; i < this.state.countryInfo.length; i++) {
+      let region = this.state.countryInfo[i].region;
+      regions[region] = regions[region] ? regions[region] + 1 : 1;
+
+      let subregion = this.state.countryInfo[i].subregion;
+      subregions[subregion] = subregions[subregion]
+        ? subregions[subregion] + 1
+        : 1;
+    }
+
+    // counts how many are in each subregion
+    // for (var i = 0; i < subregions.length; i++) {
+    //   let subregion = subregions[i];
+    //   subregionCounts[subregion] = subregionCounts[subregion]
+    //     ? subregionCounts[subregion] + 1
+    //     : 1;
+    // }
+
+    return (
+      <div>
+        <h2>
+          Total Countries: <span>{totalCountries}</span>
+        </h2>
+        <h3>Regions:</h3>
+        {Object.keys(regions).map((region, i) => (
+          <div>
+            <h4>{region}</h4>
+            <li>Count: {regions[region]}</li>
+          </div>
+        ))}
+        <h3>Sub-Regions:</h3>
+        {Object.keys(subregions).map((subregion, i) => (
+          <div>
+            <h4>{subregion}</h4>
+            <li>Count: {subregions[subregion]}</li>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -116,10 +164,10 @@ class App extends React.Component {
           </div>
           {this.state.countryInfo && this.state.countryInfo != [] ? (
             <div>
-              <h2>Country Info</h2>
+              <h1>Country Info</h1>
               {this.state.countryInfo.map((country, index) => (
                 <div>
-                  <h3>{country.name}</h3>
+                  <h2>{country.name}</h2>
                   <ul>
                     <li key={index + 1}>{country.alpha2Code}</li>
                     <li key={index + 2}>{country.alpha3Code}</li>
@@ -138,6 +186,7 @@ class App extends React.Component {
             </div>
           )}
         </form>
+        <div>{this.countTotals()}</div>
       </div>
     );
   }
