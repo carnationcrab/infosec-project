@@ -110,9 +110,7 @@ class App extends React.Component {
             <br />
             <button type="submit">Submit</button>
           </div>
-          <p>
-            Result: <span id="txtHint"></span>
-          </p>
+          <p>{this.state.countryInfo}</p>
         </form>
       </div>
     );

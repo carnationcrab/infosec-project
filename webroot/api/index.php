@@ -39,8 +39,7 @@ function getData() {
     }
 
     if ($url) { 
-        return ['url', $url];
-
+        return file($url);   
     };
 
 }
