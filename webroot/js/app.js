@@ -15,7 +15,7 @@ class App extends React.Component {
     // if state is empty (no search params, set an error)
     // consider having requirement/errors as part of form
     if (this.state.keyword == "" || this.state.by == "") {
-      this.setState({ error: "Missing search criteria" });
+      this.setState({ error: "Missing search criteria." });
     } else {
       this.setState({ error: "" });
     }
@@ -36,6 +36,7 @@ class App extends React.Component {
         if (res.status !== 200) {
           console.log("error bad response");
           this.setState({
+            countryInfo: "",
             error: "Error:" + res.status,
           });
         } else {
@@ -43,45 +44,30 @@ class App extends React.Component {
             .json()
             .then((resJson) => {
               console.log("res", resJson);
-              if (resJson === null) {
-                console.log("error no response");
-                this.setState({ error: "None Found" });
-              }
+              //   if (resJson === null) {
+              //     console.log("error no response");
+              //     this.setState({ error: "No Response" });
+              //   }
               console.log("no error");
-              this.setState({ countryInfo: resJson[0] });
+              this.setState({ countryInfo: resJson[0], error: "" });
             })
             .catch((err) => {
               console.log("error parsing");
               this.setState({
-                error: "Error: " + err,
+                countryInfo: "",
+                error: "Error: Nothing Found.",
               });
             });
         }
       })
       .catch((err) => {
         this.setState({
+          countryInfo: "",
           error: "Error " + err,
         });
         console.log("error");
       });
     console.log("poststate", this.state);
-  }
-
-  displayCountry(country) {
-    let data = {
-      fullname: country.name,
-      alphaCode2: "",
-      alphaCode3: "",
-      flagImg: "",
-      region: "",
-      subRegion: "",
-      population: "",
-      languages: "",
-    };
-
-    console.log(country);
-
-    return <div>{data.fullname}</div>;
   }
 
   render() {
@@ -145,7 +131,10 @@ class App extends React.Component {
               ))}
             </div>
           ) : (
-            <div>Search for a country to see results</div>
+            <div>
+              <div>{this.state.error}</div>
+              <div>Try Searching for Something!</div>
+            </div>
           )}
         </form>
       </div>
