@@ -5,11 +5,66 @@ class App extends React.Component {
       keyword: "",
       by: "",
       error: "",
+      countryInfo: "",
     };
   }
 
   submit(event) {
+    event.preventDefault();
+
+    // if state is empty (no search params, set an error)
+    // consider having requirement/errors as part of form
+    if (this.state.keyword == "" || this.state.by == "") {
+      this.setState({ error: "Missing search criteria" });
+    } else {
+      this.setState({ error: "" });
+    }
+
     console.log(this.state);
+
+    const url =
+      "/api/index.php" +
+      "?keyword=" +
+      encodeURIComponent(this.state.keyword) +
+      "&by=" +
+      encodeURIComponent(this.state.by);
+
+    console.log(url);
+
+    fetch(url)
+      .then((res) => {
+        if (res.status !== 200) {
+          console.log("error bad response");
+          this.setState({
+            error: "Error:" + res.status,
+          });
+        } else {
+          res
+            .json()
+            .then((resJson) => {
+              console.log("res", resJson);
+              if (resJson === null) {
+                console.log("error no response");
+                this.setState({ error: "None Found" });
+              }
+              console.log("no error");
+              this.setState({ countryInfo: resJson });
+            })
+            .catch((err) => {
+              console.log("error parsing");
+              this.setState({
+                error: "Error: " + err,
+              });
+            });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          error: "Error " + err,
+        });
+        console.log("error");
+      });
+    console.log("poststate", this.state);
   }
 
   render() {
@@ -55,6 +110,9 @@ class App extends React.Component {
             <br />
             <button type="submit">Submit</button>
           </div>
+          <p>
+            Result: <span id="txtHint"></span>
+          </p>
         </form>
       </div>
     );
