@@ -25,9 +25,9 @@ class App extends React.Component {
     const url =
       "/api/index.php" +
       "?keyword=" +
-      encodeURIComponent(this.state.keyword) +
+      this.state.keyword +
       "&by=" +
-      encodeURIComponent(this.state.by);
+      this.state.by;
 
     console.log(url);
 
