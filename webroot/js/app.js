@@ -48,7 +48,7 @@ class App extends React.Component {
                 this.setState({ error: "None Found" });
               }
               console.log("no error");
-              this.setState({ countryInfo: resJson });
+              this.setState({ countryInfo: resJson[0] });
             })
             .catch((err) => {
               console.log("error parsing");
@@ -65,6 +65,23 @@ class App extends React.Component {
         console.log("error");
       });
     console.log("poststate", this.state);
+  }
+
+  displayCountry(country) {
+    let data = {
+      fullname: country.name,
+      alphaCode2: "",
+      alphaCode3: "",
+      flagImg: "",
+      region: "",
+      subRegion: "",
+      population: "",
+      languages: "",
+    };
+
+    console.log(country);
+
+    return <div>{data.fullname}</div>;
   }
 
   render() {
@@ -110,7 +127,26 @@ class App extends React.Component {
             <br />
             <button type="submit">Submit</button>
           </div>
-          <p>{this.state.countryInfo}</p>
+          {this.state.countryInfo && this.state.countryInfo != "" ? (
+            <div>
+              <h2>Country Info</h2>
+              {this.state.countryInfo.map((country, index) => (
+                <div>
+                  <h3>{country.name}</h3>
+                  <ul>
+                    <li key={index + 1}>{country.alpha2Code}</li>
+                    <li key={index + 2}>{country.alpha3Code}</li>
+                    <li key={index + 4}>{country.population}</li>
+                    <li key={index + 5}>{country.region}</li>
+                    <li key={index + 6}>{country.subregion}</li>
+                    <li key={index + 7}>{country.flag}</li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>Search for a country to see results</div>
+          )}
         </form>
       </div>
     );

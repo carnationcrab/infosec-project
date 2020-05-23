@@ -28,23 +28,22 @@ function getData() {
     if ($searchBy == 'name') {
         // return ['name'];
        $url = $URL_NAME.$keyword.$FILTERS;
+       return json_decode(file_get_contents($url));
+
     }
     if ($searchBy == 'fullname') {
         // return ['full'];
         $url = $URL_NAME.$keyword.$FULLNAME.$FILTERS;
+        return json_decode(file_get_contents($url));
     }
     if ($searchBy == 'code') {
-        // return ['code'];
         $url = $URL_CODE.$keyword.$FILTERS;
+        return [json_decode(file_get_contents($url))];
     }
-
-    if ($url) { 
-        return file($url);   
-    };
 
 }
 
-$data = getData();
+$data = [getData()];
 
 header('Content-Type: application/json');
 echo json_encode($data);
