@@ -1,3 +1,5 @@
+// TODO sort results by population order
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -5,7 +7,7 @@ class App extends React.Component {
       keyword: "",
       by: "",
       error: "",
-      countryInfo: "",
+      countryInfo: [],
     };
   }
 
@@ -15,7 +17,7 @@ class App extends React.Component {
     // if state is empty (no search params, set an error)
     // consider having requirement/errors as part of form
     if (this.state.keyword == "" || this.state.by == "") {
-      this.setState({ error: "Missing search criteria." });
+      return this.setState({ error: "Missing search criteria." });
     } else {
       this.setState({ error: "" });
     }
@@ -36,7 +38,7 @@ class App extends React.Component {
         if (res.status !== 200) {
           console.log("error bad response");
           this.setState({
-            countryInfo: "",
+            countryInfo: [],
             error: "Error:" + res.status,
           });
         } else {
@@ -44,17 +46,16 @@ class App extends React.Component {
             .json()
             .then((resJson) => {
               console.log("res", resJson);
-              //   if (resJson === null) {
-              //     console.log("error no response");
-              //     this.setState({ error: "No Response" });
-              //   }
               console.log("no error");
-              this.setState({ countryInfo: resJson[0], error: "" });
+              var list = resJson[0].sort((a, b) =>
+                a.population < b.population ? 1 : -1
+              );
+              this.setState({ countryInfo: list, error: "" });
             })
             .catch((err) => {
               console.log("error parsing");
               this.setState({
-                countryInfo: "",
+                countryInfo: [],
                 error: "Error: Nothing Found.",
               });
             });
@@ -113,7 +114,7 @@ class App extends React.Component {
             <br />
             <button type="submit">Submit</button>
           </div>
-          {this.state.countryInfo && this.state.countryInfo != "" ? (
+          {this.state.countryInfo && this.state.countryInfo != [] ? (
             <div>
               <h2>Country Info</h2>
               {this.state.countryInfo.map((country, index) => (
