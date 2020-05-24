@@ -19,20 +19,16 @@ function getData() {
     $searchBy = $_REQUEST['by'];
     $keyword = $_REQUEST['keyword'];
 
-   // return [$searchBy, $keyword];
-
     if(empty($keyword) || empty($searchBy)) {
         return ['null'];
     }
 
     if ($searchBy == 'name') {
-        // return ['name'];
        $url = $URL_NAME.$keyword.$FILTERS;
        return json_decode(file_get_contents($url));
 
     }
     if ($searchBy == 'fullname') {
-        // return ['full'];
         $url = $URL_NAME.$keyword.$FULLNAME.$FILTERS;
         return json_decode(file_get_contents($url));
     }

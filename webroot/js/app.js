@@ -1,5 +1,3 @@
-// TODO add languages
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -17,55 +15,42 @@ class App extends React.Component {
     // if state is empty (no search params, set an error)
     // consider having requirement/errors as part of form
     if (this.state.keyword == "" || this.state.by == "") {
-      return this.setState({ error: "Missing search criteria." });
+      return this.setState({
+        countryInfo: "",
+        error: "Missing search criteria.",
+      });
     } else {
       this.setState({ error: "" });
     }
 
-    console.log(this.state);
-
-    const url =
+    fetch(
       "/api/index.php" +
-      "?keyword=" +
-      this.state.keyword +
-      "&by=" +
-      this.state.by;
-
-    console.log(url);
-
-    fetch(url)
-      .then((res) => {
-        if (res.status !== 200) {
-          console.log("error bad response");
-          this.setState({
-            countryInfo: "",
-            error: "Error:" + res.status,
-          });
-        } else {
-          res
-            .json()
-            .then((resJson) => {
-              console.log("res", resJson);
-              console.log("no error");
-              this.setState({ countryInfo: resJson[0], error: "" });
-            })
-            .catch((err) => {
-              console.log("error parsing");
-              this.setState({
-                countryInfo: "",
-                error: "Error: Nothing Found.",
-              });
+        "?keyword=" +
+        this.state.keyword +
+        "&by=" +
+        this.state.by
+    ).then((res) => {
+      // if good response, set state
+      if (res.status === 200) {
+        res
+          .json()
+          .then((resJson) => {
+            this.setState({ countryInfo: resJson[0], error: "" });
+          })
+          .catch((err) => {
+            this.setState({
+              countryInfo: "",
+              error: "Error: Nothing Found.",
             });
-        }
-      })
-      .catch((err) => {
+          });
+      } else {
+        // failsafe
         this.setState({
-          countryInfo: [],
-          error: "Error " + err,
+          countryInfo: "",
+          error: "Error:" + res.status,
         });
-        console.log("error");
-      });
-    console.log("poststate", this.state);
+      }
+    });
   }
 
   countTotals() {
@@ -85,51 +70,24 @@ class App extends React.Component {
         : 1;
     }
 
-    // counts how many are in each subregion
-    // for (var i = 0; i < subregions.length; i++) {
-    //   let subregion = subregions[i];
-    //   subregionCounts[subregion] = subregionCounts[subregion]
-    //     ? subregionCounts[subregion] + 1
-    //     : 1;
-    // }
-
     return (
-      //   <div>
-      //     <h2>
-      //       Total Countries: <span>{totalCountries}</span>
-      //     </h2>
-      //     <h3>Regions:</h3>
-      //     {Object.keys(regions).map((region, i) => (
-      //       <div>
-      //         <h4>{region}</h4>
-      //         <li>Count: {regions[region]}</li>
-      //       </div>
-      //     ))}
-      //     <h3>Sub-Regions:</h3>
-      //     {Object.keys(subregions).map((subregion, i) => (
-      //       <div>
-      //         <h4>{subregion}</h4>
-      //         <li>Count: {subregions[subregion]}</li>
-      //       </div>
-      //     ))}
-      //   </div>
-      <div class="row">
-        <div class="col s12">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Search Stats</span>
+      <div className="row">
+        <div className="col s12">
+          <div className="card">
+            <div className="card-content">
+              <span className="card-title">Search Stats</span>
               <h6>
                 Total Countries: <span>{totalCountries}</span>
               </h6>
               <h6>Regions:</h6>
               {Object.keys(regions).map((region, i) => (
-                <div class="chip">
+                <div className="chip">
                   {region} (Count: {regions[region]})
                 </div>
               ))}
               <h6>Sub-Regions:</h6>
               {Object.keys(subregions).map((subregion, i) => (
-                <div class="chip">
+                <div className="chip">
                   {subregion} (Count: {subregions[subregion]})
                 </div>
               ))}
@@ -142,17 +100,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <div class="card-panel">
+      <div className="card-panel">
         <h1>Country App</h1>
 
-        <div class="row">
-          <div class="col s12">
-            <div class="card">
-              <div class="card-content">
-                <span class="card-title">Search</span>
+        <div className="row">
+          <div className="col s12">
+            <div className="card">
+              <div className="card-content">
+                <span className="card-title">Search</span>
                 <form onSubmit={(event) => this.submit(event)}>
-                  <div class="row">
-                    <div class="input-field col s6">
+                  <div className="row">
+                    <div className="input-field col s6">
                       <input
                         id="country"
                         placeholder="Country Search"
@@ -161,7 +119,7 @@ class App extends React.Component {
                         }
                       />
                     </div>
-                    <div class="row">
+                    <div className="row">
                       <div>Search By:</div>
                       <p>
                         <label>
@@ -195,12 +153,12 @@ class App extends React.Component {
                       </p>
                     </div>
                   </div>
-                  <div class="divider"></div>
-                  <div class="row"></div>
-                  <div class="row">
-                    <div class="col">
+                  <div className="divider"></div>
+                  <div className="row"></div>
+                  <div className="row">
+                    <div className="col">
                       <button
-                        class="btn waves-effect waves-light"
+                        className="btn waves-effect waves-light"
                         type="submit"
                         name="action"
                       >
@@ -216,17 +174,17 @@ class App extends React.Component {
 
         <div>
           {this.state.countryInfo && this.state.countryInfo != "" ? (
-            <div class="row">
+            <div className="row">
               <h2>Country Info</h2>
               {this.state.countryInfo.map((country, index) => (
-                <div class="col s12 m3">
-                  <div class="card">
-                    <div class="card-image">
+                <div className="col s12 m3">
+                  <div className="card">
+                    <div className="card-image">
                       <img src={country.flag} />
                     </div>
-                    <div class="card-stacked">
-                      <div class="card-content">
-                        <span class="card-title">{country.name}</span>
+                    <div className="card-stacked">
+                      <div className="card-content">
+                        <span className="card-title">{country.name}</span>
                         <ul>
                           <li key={index + 1}>
                             Alpha Code 2: {country.alpha2Code}
@@ -243,7 +201,7 @@ class App extends React.Component {
                           </li>
                           <div>Languages:</div>
                           {country.languages.map((language, index) => (
-                            <div class="chip">{language.name}</div>
+                            <div className="chip">{language.name}</div>
                           ))}
                         </ul>
                       </div>
@@ -255,7 +213,7 @@ class App extends React.Component {
             </div>
           ) : (
             <div>
-              <div class="red-text">{this.state.error}</div>
+              <div className="red-text">{this.state.error}</div>
               <div>Try Searching for Something!</div>
             </div>
           )}
