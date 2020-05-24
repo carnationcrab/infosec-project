@@ -38,12 +38,17 @@ function getData() {
     }
     if ($searchBy == 'code') {
         $url = $URL_CODE.$keyword.$FILTERS;
+        
         return [json_decode(file_get_contents($url))];
     }
 
 }
 
 $data = [getData()];
+
+usort($data[0], function($countryA, $countryB) {
+    return $countryA->population < $countryB->population ? 1 : -1;
+});
 
 header('Content-Type: application/json');
 echo json_encode($data);

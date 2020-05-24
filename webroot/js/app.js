@@ -47,10 +47,7 @@ class App extends React.Component {
             .then((resJson) => {
               console.log("res", resJson);
               console.log("no error");
-              var list = resJson[0].sort((a, b) =>
-                a.population < b.population ? 1 : -1
-              );
-              this.setState({ countryInfo: list, error: "" });
+              this.setState({ countryInfo: resJson[0], error: "" });
             })
             .catch((err) => {
               console.log("error parsing");
