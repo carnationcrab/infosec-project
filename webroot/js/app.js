@@ -205,11 +205,23 @@ class App extends React.Component {
                       <div class="card-content">
                         <span class="card-title">{country.name}</span>
                         <ul>
-                          <li key={index + 1}>{country.alpha2Code}</li>
-                          <li key={index + 2}>{country.alpha3Code}</li>
-                          <li key={index + 4}>{country.population}</li>
-                          <li key={index + 5}>{country.region}</li>
-                          <li key={index + 6}>{country.subregion}</li>
+                          <li key={index + 1}>
+                            Alpha Code 2: {country.alpha2Code}
+                          </li>
+                          <li key={index + 2}>
+                            Alpha Code 3: {country.alpha3Code}
+                          </li>
+                          <li key={index + 4}>
+                            Population: {country.population}
+                          </li>
+                          <li key={index + 5}>Region: {country.region}</li>
+                          <li key={index + 6}>
+                            Subregion: {country.subregion}
+                          </li>
+                          <div>Languages:</div>
+                          {country.languages.map((language, index) => (
+                            <div class="chip">{language.name}</div>
+                          ))}
                         </ul>
                       </div>
                     </div>
