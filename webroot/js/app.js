@@ -97,24 +97,48 @@ class App extends React.Component {
     // }
 
     return (
-      <div>
-        <h2>
-          Total Countries: <span>{totalCountries}</span>
-        </h2>
-        <h3>Regions:</h3>
-        {Object.keys(regions).map((region, i) => (
-          <div>
-            <h4>{region}</h4>
-            <li>Count: {regions[region]}</li>
+      //   <div>
+      //     <h2>
+      //       Total Countries: <span>{totalCountries}</span>
+      //     </h2>
+      //     <h3>Regions:</h3>
+      //     {Object.keys(regions).map((region, i) => (
+      //       <div>
+      //         <h4>{region}</h4>
+      //         <li>Count: {regions[region]}</li>
+      //       </div>
+      //     ))}
+      //     <h3>Sub-Regions:</h3>
+      //     {Object.keys(subregions).map((subregion, i) => (
+      //       <div>
+      //         <h4>{subregion}</h4>
+      //         <li>Count: {subregions[subregion]}</li>
+      //       </div>
+      //     ))}
+      //   </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Search Stats</span>
+              <h6>
+                Total Countries: <span>{totalCountries}</span>
+              </h6>
+              <h6>Regions:</h6>
+              {Object.keys(regions).map((region, i) => (
+                <div class="chip">
+                  {region} (Count: {regions[region]})
+                </div>
+              ))}
+              <h6>Sub-Regions:</h6>
+              {Object.keys(subregions).map((subregion, i) => (
+                <div class="chip">
+                  {subregion} (Count: {subregions[subregion]})
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-        <h3>Sub-Regions:</h3>
-        {Object.keys(subregions).map((subregion, i) => (
-          <div>
-            <h4>{subregion}</h4>
-            <li>Count: {subregions[subregion]}</li>
-          </div>
-        ))}
+        </div>
       </div>
     );
   }
@@ -122,6 +146,8 @@ class App extends React.Component {
   render() {
     return (
       <div class="card-panel">
+        <h1>Country App</h1>
+
         <div class="row">
           <div class="col s12">
             <div class="card">
@@ -194,9 +220,9 @@ class App extends React.Component {
         <div>
           {this.state.countryInfo && this.state.countryInfo != "" ? (
             <div class="row">
-              <h1>Country Info</h1>
+              <h2>Country Info</h2>
               {this.state.countryInfo.map((country, index) => (
-                <div class="col s12 m4">
+                <div class="col s12 m3">
                   <div class="card">
                     <div class="card-image">
                       <img src={country.flag} />
@@ -228,14 +254,14 @@ class App extends React.Component {
                   </div>
                 </div>
               ))}
+              <div>{this.countTotals()}</div>
             </div>
           ) : (
             <div>
-              <div>{this.state.error}</div>
+              <div class="red-text">{this.state.error}</div>
               <div>Try Searching for Something!</div>
             </div>
           )}
-          <div>{this.countTotals()}</div>
         </div>
       </div>
     );
