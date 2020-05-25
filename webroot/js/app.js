@@ -177,8 +177,8 @@ class App extends React.Component {
             <div className="row">
               <h2>Country Info</h2>
               {this.state.countryInfo.map((country, index) => (
-                <div className="col s12 m3">
-                  <div className="card">
+                <div className="col s12">
+                  <div className="card horizontal">
                     <div className="card-image">
                       <img src={country.flag} />
                     </div>
@@ -186,19 +186,11 @@ class App extends React.Component {
                       <div className="card-content">
                         <span className="card-title">{country.name}</span>
                         <ul>
-                          <li key={index + 1}>
-                            Alpha Code 2: {country.alpha2Code}
-                          </li>
-                          <li key={index + 2}>
-                            Alpha Code 3: {country.alpha3Code}
-                          </li>
-                          <li key={index + 4}>
-                            Population: {country.population}
-                          </li>
-                          <li key={index + 5}>Region: {country.region}</li>
-                          <li key={index + 6}>
-                            Subregion: {country.subregion}
-                          </li>
+                          <li key={"a"}>Alpha Code 2: {country.alpha2Code}</li>
+                          <li key={"b"}>Alpha Code 3: {country.alpha3Code}</li>
+                          <li key={"c"}>Population: {country.population}</li>
+                          <li key={"d"}>Region: {country.region}</li>
+                          <li key={"e"}>Subregion: {country.subregion}</li>
                           <div>Languages:</div>
                           {country.languages.map((language, index) => (
                             <div className="chip">{language.name}</div>
