@@ -13,7 +13,6 @@ class App extends React.Component {
     event.preventDefault();
 
     // if state is empty (no search params, set an error)
-    // consider having requirement/errors as part of form
     if (this.state.keyword == "" || this.state.by == "") {
       return this.setState({
         countryInfo: "",
@@ -56,7 +55,7 @@ class App extends React.Component {
   countTotals() {
     let totalCountries = this.state.countryInfo.length;
 
-    // counts how many are in each region
+    // counts how many are in each region or subregion
     let regions = {};
     let subregions = {};
 

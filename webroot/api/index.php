@@ -1,11 +1,6 @@
 <?php
-/**
- * This is a template php file for your countries search.
- * Use as you will, or start over. It's up to you.
- */
- 
 
-// Retrieves and sorts the data from the restcountries.eu endpoints
+// retrieves data from rest countries api
 function getData() {
      // urls
     $URL_NAME = 'https://restcountries.eu/rest/v2/name/';
