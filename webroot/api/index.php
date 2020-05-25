@@ -1,6 +1,5 @@
 <?php
 
-// retrieves data from rest countries api
 function getData() {
      // urls
     $URL_NAME = 'https://restcountries.eu/rest/v2/name/';
@@ -10,14 +9,14 @@ function getData() {
     $FILTERS = '?fields=name;alpha2Code;alpha3Code;flag;region;subregion;population;languages';
     $FULLNAME = '?fullText=true&';
 
-
+    // params
     $searchBy = $_REQUEST['by'];
     $keyword = $_REQUEST['keyword'];
 
+    // not strictly necessary, but prevents error (failsafe)
     if(empty($keyword) || empty($searchBy)) {
         return ['null'];
     }
-
     if ($searchBy == 'name') {
        $url = $URL_NAME.$keyword.$FILTERS;
        return json_decode(file_get_contents($url));
