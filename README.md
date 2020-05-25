@@ -2,7 +2,7 @@
 
 ## Description
 
-This was a code challenge I was required to do when applying for a job.
+This app takes in input of a country name, fullname, or country code and outputs information regarding that country. It is built with ReactJS, Javascript, PHP, and MaterializeCSS.
 
 ### A/C:
 
